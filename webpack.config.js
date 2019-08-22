@@ -7,7 +7,7 @@ module.exports = {
 
   devtool: process.env.NODE_ENV === 'production' ? undefined : 'inline-source-map',
 
-  entry: `${path.join(__dirname, 'src')}/index.jsx`,
+  entry: './src/index.jsx',
 
   output: {
     filename: 'bundle.js',
