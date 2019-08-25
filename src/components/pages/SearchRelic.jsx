@@ -13,6 +13,7 @@ import {
 // } from 'lodash'
 import { getSearchedRelics } from '../utils'
 import React from 'react'
+import axios from 'axios'
 
 const Items = require('warframe-items')
 
@@ -31,6 +32,7 @@ const SearchRelic = () => {
   const [ radioSearch, setRadioSearch ] = React.useState('relics')
   const [ keyword, setKeyword ] = React.useState('')
   const [ qualitySearch, setQualitySearch ] = React.useState('Intact')
+  const [ responseData, setResponseData ] = React.useState([])
 
   // enter = event => {
   //   if ( event.keyCode === 13 ) {
@@ -41,6 +43,25 @@ const SearchRelic = () => {
   const items = new Items([ 'Relics' ])
   console.log({ items })
   getSearchedRelics(items, keyword)
+  const handleSubmit = event => {
+    const url = radioSearch === 'Relics' || radioSearch === 'Parts'
+      ? 'findRelics'
+      : 'missionLocation'
+    event.preventDefault()
+    axios.get(`https://services.warframerelicsearch.com/${url}`, {
+      params: {
+        search: radioSearch,
+        userInput: keyword,
+      },
+    })
+      .then(response => {
+        setResponseData(response.data)
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.info(error)
+      })
+  }
 
   return (
     <Grid container spacing={2}>
@@ -50,7 +71,10 @@ const SearchRelic = () => {
           <RadioGroup
             aria-label="position"
             name="position"
-            onChange={(_, value) => setRadioSearch(value)}
+            onChange={(_, value) => {
+              setRadioSearch(value)
+              handleSubmit()
+            }}
             row
             value={radioSearch}
           >
@@ -127,6 +151,7 @@ const SearchRelic = () => {
         </Grid>
       )}
       <Grid item xs={12}>
+        <div>{responseData}</div>
         {/* {radioSearch === 'Relics'
           ? _map(relicData, relic => (
             <Relic
