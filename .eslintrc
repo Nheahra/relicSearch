@@ -58,6 +58,7 @@
     "prefer-spread": "error",
     "template-curly-spacing":[ "error", "never" ],
     "array-bracket-spacing": [ "error", "always", { "objectsInArrays": false } ],
-    "comma-dangle": [ "error", "always-multiline" ]
+    "comma-dangle": [ "error", "always-multiline" ],
+    "linebreak-style": ["error", "windows"]
   }
 }

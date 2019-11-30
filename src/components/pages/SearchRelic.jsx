@@ -29,9 +29,9 @@ const SearchRelic = () => {
   //     missionData: [],
   //   }
   // }
-  const [ radioSearch, setRadioSearch ] = React.useState('relics')
+  const [ categoryRadio, setCategoryRadio ] = React.useState('relics')
   const [ keyword, setKeyword ] = React.useState('')
-  const [ qualitySearch, setQualitySearch ] = React.useState('Intact')
+  const [ qualityRadio, setQualityRadio ] = React.useState('intact')
   const [ responseData, setResponseData ] = React.useState([])
 
   // enter = event => {
@@ -44,13 +44,13 @@ const SearchRelic = () => {
   console.log({ items })
   getSearchedRelics(items, keyword)
   const handleSubmit = event => {
-    const url = radioSearch === 'Relics' || radioSearch === 'Parts'
+    const url = categoryRadio === 'Relics' || categoryRadio === 'Parts'
       ? 'findRelics'
       : 'missionLocation'
     event.preventDefault()
     axios.get(`https://services.warframerelicsearch.com/${url}`, {
       params: {
-        search: radioSearch,
+        search: categoryRadio,
         userInput: keyword,
       },
     })
@@ -64,7 +64,7 @@ const SearchRelic = () => {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={16}>
       <Grid item xs={12}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Search By:</FormLabel>
@@ -72,11 +72,11 @@ const SearchRelic = () => {
             aria-label="position"
             name="position"
             onChange={(_, value) => {
-              setRadioSearch(value)
+              setCategoryRadio(value)
               handleSubmit()
             }}
             row
-            value={radioSearch}
+            value={categoryRadio}
           >
             <FormControlLabel
               control={<Radio color="primary" />}
@@ -103,24 +103,24 @@ const SearchRelic = () => {
               value="missions"
             />
           </RadioGroup>
-          <TextField
-            label="Keyword"
-            margin="normal"
-            onChange={(_, value) => setKeyword(value)} // hook this up to use Effect for searching
-            value={keyword}
-          />
         </FormControl>
+        <TextField
+          label="Keyword"
+          margin="normal"
+          onChange={(_, value) => setKeyword(value)} // hook this up to use Effect for searching
+          value={keyword}
+        />
       </Grid>
-      {radioSearch === 'relics' && (
+      {categoryRadio === 'relics' && (
         <Grid item xs={12}>
           <FormControl component="fieldset">
             <FormLabel component="legend">Quality:</FormLabel>
             <RadioGroup
               aria-label="position"
               name="position"
-              onChange={(_, value) => setQualitySearch(value)}
+              onChange={(_, value) => setQualityRadio(value)}
               row
-              value={qualitySearch}
+              value={qualityRadio}
             >
               <FormControlLabel
                 control={<Radio color="primary" />}
@@ -152,7 +152,7 @@ const SearchRelic = () => {
       )}
       <Grid item xs={12}>
         <div>{responseData}</div>
-        {/* {radioSearch === 'Relics'
+        {/* {categoryRadio === 'Relics'
           ? _map(relicData, relic => (
             <Relic
               id={relic.id}

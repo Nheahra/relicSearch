@@ -1,5 +1,8 @@
 {
   "editor.tabSize": 2,
   "files.autoSave": "afterDelay",
-  "editor.fontFamily": "Fira Code"
+  "editor.fontFamily": "Fira Code",
+  "editor.wordWrap": "on",
+  "terminal.integrated.fontWeightBold": "normal",
+  "terminal.integrated.fontFamily": "Fira Code"
 }

@@ -42,21 +42,9 @@
     grid-template-columns: repeat(4, 1fr);
     width: 100%;
 }
-.notVaulted{
-    padding: 5px;
-    margin: 6px;
-    display: inline-block;    
-}
-
-.notVaulted > p {
-    display: none;
-}
 
 .vaulted {
-    padding: 5px;
     border: 1px solid red;
-    display: inline-block;
-    margin: 5px;
 }
 
 .vaulted > p {
