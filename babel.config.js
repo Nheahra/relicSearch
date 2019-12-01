@@ -3,7 +3,7 @@ module.exports = api => {
   api.cache(true)
 
   const presets = [
-    [ '@babel/preset-env', { useBuiltIns: 'entry' }],
+    [ '@babel/preset-env', { targets: { node: 'current' }, useBuiltIns: 'entry' }],
     [ '@babel/preset-react', { development: process.env.NODE_ENV !== 'production' }],
   ]
 

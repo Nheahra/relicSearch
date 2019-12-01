@@ -1,0 +1,4 @@
+**/bin/**
+**/bundle.js
+coverage
+node_modules

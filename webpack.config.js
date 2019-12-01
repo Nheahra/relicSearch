@@ -15,15 +15,22 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [ '.js', '.jsx' ],
+    alias: {
+      react: path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+    },
+    extensions: [ '.js', '.jsx', 'json' ],
   },
 
   module: {
     rules: [
       {
-        loader: 'babel-loader',
-        test: /\.js(x)?/,
-        include: path.join(__dirname, 'src'),
+        test: /\.jsx?$/,
+        use: 'babel-loader',
+        exclude: /node_modules/,
+      }, {
+        test: /\.s?css$/,
+        use: [ 'style-loader', 'css-loader', 'sass-loader' ],
       },
     ],
   },

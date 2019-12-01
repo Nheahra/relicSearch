@@ -41,7 +41,7 @@ const SearchRelic = () => {
   // }
   // const { search, relicData, qualityData } = this.state
   const items = new Items([ 'Relics' ])
-  console.log({ items })
+  // console.log({ items })
   getSearchedRelics(items, keyword)
   const handleSubmit = event => {
     const url = categoryRadio === 'Relics' || categoryRadio === 'Parts'
@@ -64,7 +64,7 @@ const SearchRelic = () => {
   }
 
   return (
-    <Grid container spacing={16}>
+    <Grid container spacing={4}>
       <Grid item xs={12}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Search By:</FormLabel>
