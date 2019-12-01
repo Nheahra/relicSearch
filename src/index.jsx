@@ -1,5 +1,4 @@
 import '@babel/polyfill'
-import 'raf/polyfill'
 import AppComponent from './components/App/AppComponent'
 import React from 'react'
 import ReactDOM from 'react-dom'

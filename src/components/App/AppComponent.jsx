@@ -4,12 +4,15 @@ import {
   Tab,
   Tabs,
 } from '@material-ui/core'
+import { appComponentStyles } from '../../styles/index'
+import { withStyles } from '@material-ui/styles'
 import FarmGuide from '../pages/FarmGuide'
 import Inventory from '../pages/Inventory'
 import React, { useState } from 'react'
 import SearchRelic from '../pages/SearchRelic'
+import wsaLogo from '../../images/wsaLogo.png'
 
-const AppComponent = () => {
+const AppComponent = ({ classes }) => {
   const [ tabName, setTabName ] = useState('searchRelics')
   const displayTab = () => {
     switch ( tabName ) {
@@ -24,10 +27,17 @@ const AppComponent = () => {
 
   return (
     <Grid container spacing={4}>
-      <Grid item xs={12}>
+      <Grid
+        alignContent="center"
+        container
+        item
+        sm
+        xs={12}
+      >
         <img
           alt="Warframe Logo"
-          src="wsa/src/images/wsaLogo.png"
+          className={classes.warframeLogo}
+          src={wsaLogo}
         />
       </Grid>
       <Grid item xs={12}>
@@ -36,6 +46,7 @@ const AppComponent = () => {
           position="static"
         >
           <Tabs
+            indicatorColor="primary"
             onChange={(_, value) => setTabName(value)}
             value={tabName}
           >
@@ -61,4 +72,4 @@ const AppComponent = () => {
   )
 }
 
-export default AppComponent
+export default withStyles(appComponentStyles)(AppComponent)

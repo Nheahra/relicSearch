@@ -1,12 +1,7 @@
-const styles = {
-  container: {
-    paddingLeft: '50px',
-    paddingRight: '50px',
-  },
+export const appComponentStyles = {
   warframeLogo: {
-    height: 50,
+    height: '200px',
+    margin: 'auto',
     paddingTop: '15px',
   },
 }
-
-export default styles

@@ -1,3 +1,4 @@
+/* eslint-disable wyze/max-file-length */
 import {
   FormControl,
   FormControlLabel,
@@ -8,59 +9,72 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core'
-// import {
-//   map as _map,
-// } from 'lodash'
-import { getSearchedRelics } from '../utils'
+import {
+  getSearchedRelics,
+} from '../utils'
+import {
+  map,
+} from 'lodash'
 import React from 'react'
-import axios from 'axios'
+import Relic from './subComponents/Relic'
+// import axios from 'axios'
 
 const Items = require('warframe-items')
 
 const SearchRelic = () => {
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
   //     search: 'Relics',
   //     keyword: '',
   //     quality: 'Intact',
   //     relicData: [],
   //     qualityData: { id: 4, level: 'Intact', bronze: '25.33', silver: '11.00', gold: '2.00' },
   //     missionData: [],
-  //   }
-  // }
+
   const [ categoryRadio, setCategoryRadio ] = React.useState('relics')
   const [ keyword, setKeyword ] = React.useState('')
   const [ qualityRadio, setQualityRadio ] = React.useState('intact')
-  const [ responseData, setResponseData ] = React.useState([])
 
-  // enter = event => {
-  //   if ( event.keyCode === 13 ) {
-  //     this.handleSubmit(event)
-  //   }
+  const relics = new Items({ category: [ 'Relics' ] })
+    .filter(({ name }) => name.toLowerCase().indexOf(qualityRadio.toLowerCase()) > -1)
+
+  const prime = new Items({ category: [ 'Primary', 'Secondary', 'Melee', 'Archwing', 'Warframes', 'Sentinels' ] })
+    .filter(({ name }) => name.toLowerCase().indexOf('prime') > -1)
+  console.log({ prime })
+
+  // const handleSubmit = event => {
+  //   const url = categoryRadio === 'Relics' || categoryRadio === 'Parts'
+  //     ? 'findRelics'
+  //     : 'missionLocation'
+  //   event.preventDefault()
+  //   axios.get(`https://services.warframerelicsearch.com/${url}`, {
+  //     params: {
+  //       search: categoryRadio,
+  //       userInput: keyword,
+  //     },
+  //   })
+  //     .then(response => {
+  //       setResponseData(response.data)
+  //       console.log(response.data)
+  //     })
+  //     .catch(error => {
+  //       console.info(error)
+  //     })
   // }
-  // const { search, relicData, qualityData } = this.state
-  const items = new Items([ 'Relics' ])
-  // console.log({ items })
-  getSearchedRelics(items, keyword)
-  const handleSubmit = event => {
-    const url = categoryRadio === 'Relics' || categoryRadio === 'Parts'
-      ? 'findRelics'
-      : 'missionLocation'
-    event.preventDefault()
-    axios.get(`https://services.warframerelicsearch.com/${url}`, {
-      params: {
-        search: categoryRadio,
-        userInput: keyword,
-      },
-    })
-      .then(response => {
-        setResponseData(response.data)
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.info(error)
-      })
+
+  const renderOption = () => {
+    switch ( categoryRadio ) {
+      case 'relics':
+        return (
+          map(getSearchedRelics({ relics, keyword }), (relic, index) => (
+            <Grid item key={index} xs={3} >
+              <Relic
+                relic={relic}
+              />
+            </Grid>
+          ))
+        )
+      default:
+        return (<Typography variant="h5">No Data</Typography>)
+    }
   }
 
   return (
@@ -68,13 +82,16 @@ const SearchRelic = () => {
       <Grid item xs={12}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Search By:</FormLabel>
+          <TextField
+            label="Keyword"
+            margin="normal"
+            onChange={({ target: { value } }) => setKeyword(value)}
+            value={keyword}
+          />
           <RadioGroup
             aria-label="position"
             name="position"
-            onChange={(_, value) => {
-              setCategoryRadio(value)
-              handleSubmit()
-            }}
+            onChange={(_, value) => setCategoryRadio(value)}
             row
             value={categoryRadio}
           >
@@ -104,12 +121,6 @@ const SearchRelic = () => {
             />
           </RadioGroup>
         </FormControl>
-        <TextField
-          label="Keyword"
-          margin="normal"
-          onChange={(_, value) => setKeyword(value)} // hook this up to use Effect for searching
-          value={keyword}
-        />
       </Grid>
       {categoryRadio === 'relics' && (
         <Grid item xs={12}>
@@ -150,26 +161,13 @@ const SearchRelic = () => {
           </FormControl>
         </Grid>
       )}
-      <Grid item xs={12}>
-        <div>{responseData}</div>
-        {/* {categoryRadio === 'Relics'
-          ? _map(relicData, relic => (
-            <Relic
-              id={relic.id}
-              key={relic.id}
-              name={relic.name}
-              percent={qualityData}
-              relic={relic}
-            />
-          ))
-          : (
-            <MissionLocation
-              data={this.state.missionData}
-              key={mapPlanet}
-              planet={mapPlanet}
-            />
-          )
-        } */}
+      <Grid
+        container
+        item
+        spacing={4}
+        xs={12}
+      >
+        {renderOption()}
       </Grid>
       <Grid item xs={12}>
         <Typography gutterBottom variant="caption">Made by a fan.</Typography>
