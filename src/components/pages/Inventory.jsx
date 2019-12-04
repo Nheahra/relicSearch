@@ -1,3 +1,12 @@
+/* eslint-disable wyze/max-file-length */
+import React from 'react'
+
+const Inventory = () => (
+  <div>Under Construction</div>
+)
+
+export default Inventory
+
 // class Inventory extends React.Component {
 //   constructor() {
 //     super()

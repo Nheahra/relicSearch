@@ -1,4 +1,3 @@
-/* eslint-disable wyze/max-file-length */
 import {
   FormControl,
   FormControlLabel,
@@ -10,55 +9,33 @@ import {
   Typography,
 } from '@material-ui/core'
 import {
-  getSearchedRelics,
-} from '../utils'
-import {
+  find,
   map,
 } from 'lodash'
+import { getSearchedRelics } from '../utils'
 import React from 'react'
 import Relic from './subComponents/Relic'
-// import axios from 'axios'
 
 const Items = require('warframe-items')
 
 const SearchRelic = () => {
-  //     search: 'Relics',
-  //     keyword: '',
-  //     quality: 'Intact',
-  //     relicData: [],
-  //     qualityData: { id: 4, level: 'Intact', bronze: '25.33', silver: '11.00', gold: '2.00' },
-  //     missionData: [],
-
   const [ categoryRadio, setCategoryRadio ] = React.useState('relics')
   const [ keyword, setKeyword ] = React.useState('')
   const [ qualityRadio, setQualityRadio ] = React.useState('intact')
 
-  const relics = new Items({ category: [ 'Relics' ] })
-    .filter(({ name }) => name.toLowerCase().indexOf(qualityRadio.toLowerCase()) > -1)
-
   const prime = new Items({ category: [ 'Primary', 'Secondary', 'Melee', 'Archwing', 'Warframes', 'Sentinels' ] })
     .filter(({ name }) => name.toLowerCase().indexOf('prime') > -1)
+
   console.log({ prime })
 
-  // const handleSubmit = event => {
-  //   const url = categoryRadio === 'Relics' || categoryRadio === 'Parts'
-  //     ? 'findRelics'
-  //     : 'missionLocation'
-  //   event.preventDefault()
-  //   axios.get(`https://services.warframerelicsearch.com/${url}`, {
-  //     params: {
-  //       search: categoryRadio,
-  //       userInput: keyword,
-  //     },
-  //   })
-  //     .then(response => {
-  //       setResponseData(response.data)
-  //       console.log(response.data)
-  //     })
-  //     .catch(error => {
-  //       console.info(error)
-  //     })
-  // }
+  const relics = new Items({ category: [ 'Relics' ] })
+    .map(({ name }) => ({
+      name,
+      details: map(prime, item => item.components.forEach(({ drops }) => find(drops, ({ location }) => location === name))),
+    }))
+    .filter(({ name }) => name.toLowerCase().indexOf(qualityRadio.toLowerCase()) > -1)
+
+  console.log({ relics })
 
   const renderOption = () => {
     switch ( categoryRadio ) {

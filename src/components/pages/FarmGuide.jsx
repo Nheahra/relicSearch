@@ -1,4 +1,12 @@
-// /* eslint-disable */
+/* eslint-disable wyze/max-file-length */
+import React from 'react'
+
+const FarmGuide = () => (
+  <div>Under Construction</div>
+)
+
+export default FarmGuide
+
 // import axios from 'axios'
 // import { Select } from '@material-ui/core/Select'
 

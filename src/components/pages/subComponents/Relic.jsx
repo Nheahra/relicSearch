@@ -7,10 +7,13 @@ import {
   TableCell,
   TableRow,
 } from '@material-ui/core'
+import { relicStyles } from '../../../styles'
+import { withStyles } from '@material-ui/styles'
 import React from 'react'
 import map from 'lodash/map'
 
 const Relic = ({
+  classes,
   relic: {
     details,
     isAvailable,
@@ -25,13 +28,13 @@ const Relic = ({
           {map(details, data => (
             <TableRow>
               <TableCell>
-                <img alt="item" src={data.img} />
+                <img alt="item" className={classes.images} src={`https://cdn.warframestat.us/img/${data.imageName}`} />
               </TableCell>
               <TableCell>
                 {data.item}
               </TableCell>
               <TableCell>
-                {data.percent}%
+                {Math.round(data.chance * 10000) / 100}%
               </TableCell>
             </TableRow>
           ))}
@@ -41,4 +44,4 @@ const Relic = ({
   </Card>
 )
 
-export default Relic
+export default withStyles(relicStyles)(Relic)

@@ -5,3 +5,9 @@ export const appComponentStyles = {
     paddingTop: '15px',
   },
 }
+
+export const relicStyles = {
+  images: {
+    height: '25px',
+  },
+}
