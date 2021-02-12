@@ -4,9 +4,10 @@
   "description": "An application to farm for relics or primes",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-serve --content public",
+    "dev": "webpack --config webpack.config.js",
     "test": "jest",
-    "lint": "eslint --fix --ext .js,.jsx WarframeSearchApp"
+    "lint": "eslint --ext .js,.jsx",
+    "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",
@@ -14,7 +15,6 @@
   },
   "keywords": [
     "React",
-    "Redux",
     "Warframe",
     "Relics",
     "Search"
@@ -31,6 +31,7 @@
     "axios": "0.21.1",
     "babel-jest": "26.6.3",
     "babel-loader": "8.2.2",
+    "babel-plugin-transform-imports": "2.0.0",
     "dotenv-webpack": "6.0.0",
     "eslint": "7.19.0",
     "eslint-plugin-import": "~2.7.0",
@@ -42,6 +43,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-router-dom": "5.2.0",
+    "warframe-items": "1.1246.2",
     "webpack": "5.21.2",
     "webpack-cli": "4.5.0",
     "webpack-dev-middleware": "4.1.0",

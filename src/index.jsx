@@ -7,8 +7,10 @@ import ReactDOM from 'react-dom'
 function init() {
   const application = (
     <Router basename="/warframe-search-app">
-      <Route path="/" component={App} />
-      <Route path="/farm-guide" component={FarmGuide} />
+      <Route component={App} path="/" />
+      <Route component={FarmGuide} path="/farm-guide" />
+      <Route component={SearchRelic} path="/search-relics" />
+      <Route component={Inventory} path="/inventory" />
     </Router>
   )
 
