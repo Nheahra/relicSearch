@@ -1,20 +1,6 @@
-{
-  "extends": "airbnb",
+module.exports = {
+  // "extends": "eslint:recommended",
   "parser": "babel-eslint",
-  "env": {
-  },
-  "settings": {
-    "import/resolver": "webpack"
-  },
-  "plugins": [
-    "wyze"
-  ],
-  "globals": {
-    "document": true,
-    "window": true,
-    "localStorage": true,
-    "phoenix": true
-  },
   "rules": {
     "no-underscore-dangle": [
       2,
@@ -39,12 +25,13 @@
       "callbacksLast": false,
       "shorthandFirst": false
     }],
+    "linebreak-style": ["error", "windows"],
     "react/require-default-props": 0,
     "space-in-parens": 0,
-    "wyze/space-around-conditional": 2,
-    "wyze/func-params-spacing": 0,
-    "wyze/max-file-length": 2,
-    "wyze/sort-imports": 2,
+  //   "wyze/space-around-conditional": 2,
+  //   "wyze/func-params-spacing": 0,
+  //   "wyze/max-file-length": 2,
+  //   "wyze/sort-imports": 2,
     "import/extensions": "off",
     "import/first": 0,
     "import/prefer-default-export": 0,
