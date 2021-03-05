@@ -1,32 +1,62 @@
 const path = require('path')
-const Dotenv = require('dotenv-webpack')
-
 
 module.exports = {
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-
-  devtool: process.env.NODE_ENV === 'production' ? undefined : 'inline-source-map',
-
-  entry: `${path.join(__dirname, 'src')}/index.jsx`,
-
-  output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, 'public'),
-  },
-
+  entry: [
+    '@babel/polyfill',
+    `${path.join(__dirname, 'src')}/index.jsx`,
+  ],
+  mode: 'production',
   resolve: {
-    extensions: [ '.js', '.jsx' ],
+    alias: {
+      react: path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+    },
+    extensions: [
+      '.js',
+      '.json',
+      '.jsx',
+    ],
   },
-
+  devServer: {
+    contentBase: './dist',
+  },
+  output: {
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
   module: {
     rules: [
+      { test: /\.md$/, use: 'null-loader' },
       {
-        loader: 'babel-loader',
         test: /\.js(x)?/,
-        include: path.join(__dirname, 'src'),
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+          }
+        },
+        include: [/src/],
+      },
+      {
+        test: /\.s?css/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
-
-  plugins: [ new Dotenv() ],
+  externals: {
+    react: {
+      commonjs: 'react',
+      commonjs2: 'react',
+      root: ['React'],
+    },
+    'react-dom': {
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      root: ['ReactDOM'],
+    },
+  },
+  performance: {
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
 }

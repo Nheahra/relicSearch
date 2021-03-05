@@ -1,27 +1,31 @@
-module.exports = function (api) {
-  api.cache(true);
-  return {
-    presets: [
-      [
-        '@babel/preset-env',
-        {
-          useBuiltIns: 'usage',
-          corejs: '3.0.0',
-          shippedProposals: true,
-          targets: {
-            node: '10.15',
-          },
+module.exports = {
+  presets: [
+    '@babel/preset-react',
+    '@babel/preset-env',
+  ],
+  plugins: [
+    '@babel/plugin-proposal-object-rest-spread',
+    '@babel/plugin-transform-modules-commonjs',
+    '@babel/plugin-transform-runtime',
+    'autobind-class-methods',
+    'transform-class-properties',
+    [
+      'transform-imports',
+      {
+        '@material-ui/core': {
+          transform: '@material-ui/core/${member}',
+          preventFullImport: true,
         },
-      ],
-      [
-        '@babel/preset-react',
-        {
-          development: process.env.NODE_ENV !== 'production'
+        '@material-ui/lab': {
+          transform: '@material-ui/lab/${member}',
+          preventFullImport: true,
         },
-      ]
+        lodash: {
+          transform: 'lodash/${member}',
+          preventFullImport: true,
+        },
+      }
     ],
-    plugins: [
-      'babel-plugin-transform-imports',
-    ],
-  }
+    'react-hot-loader/babel',
+  ],
 }

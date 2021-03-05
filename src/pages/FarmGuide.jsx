@@ -1,9 +1,8 @@
 import React from 'react'
 import Items from 'warframe-items'
-import { Select } from '@material-ui/core/Select'
 
 function FarmGuide() {
-  const items = new Items()
+  const items = new Items([])
   console.log({ items })
 //   render() {
 //     if ( this.state.primeOptions.length < 1 ) {

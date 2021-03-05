@@ -1,4 +1,5 @@
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 import FarmGuide from './pages/FarmGuide'
 // import Inventory from './pages/Inventory'
 // import SearchRelic from './pages/SearchRelic'
@@ -34,4 +35,4 @@ function App() {
   )
 }
 
-export default App
+export default hot(App)
