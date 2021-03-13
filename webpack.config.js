@@ -1,28 +1,18 @@
-const path = require('path')
+const path = require('path');
 
 module.exports = {
-  entry: [
-    '@babel/polyfill',
-    `${path.join(__dirname, 'src')}/index.jsx`,
-  ],
-  mode: 'production',
-  resolve: {
-    alias: {
-      react: path.resolve(__dirname, './node_modules/react'),
-      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
-    },
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-    ],
-  },
-  devServer: {
-    contentBase: './dist',
-  },
+  mode: 'development',
+  entry: './src/index.jsx',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
+  },
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    hot: true,
+    port: 9000,
   },
   module: {
     rules: [
@@ -43,20 +33,18 @@ module.exports = {
       },
     ],
   },
-  externals: {
-    react: {
-      commonjs: 'react',
-      commonjs2: 'react',
-      root: ['React'],
+  resolve: {
+    alias: {
+      react: path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
     },
-    'react-dom': {
-      commonjs: 'react-dom',
-      commonjs2: 'react-dom',
-      root: ['ReactDOM'],
-    },
+    extensions: [
+      '.js',
+      '.json',
+      '.jsx',
+    ],
+    modules: [
+      path.join(__dirname, 'node_modules')
+    ]
   },
-  performance: {
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000
-  },
-}
+};

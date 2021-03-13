@@ -1,25 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { hot } from 'react-hot-loader/root'
 import FarmGuide from './pages/FarmGuide'
-// import Inventory from './pages/Inventory'
-// import SearchRelic from './pages/SearchRelic'
+import Inventory from './pages/Inventory'
+import SearchRelic from './pages/SearchRelic'
 import {
   Grid,
   Tab,
   Tabs,
-} from '@material-ui/core';
+} from '@material-ui/core'
 
 function App() {
-  const [view, setView] = useState();
+  const [view, setView] = useState('farmGuide')
 
   const render = {
     farmGuide: <FarmGuide />,
-    // inventory: <Inventory />,
-    // searchRelic: <SearchRelic />,
+    inventory: <Inventory />,
+    searchRelic: <SearchRelic />,
   }
 
   return (
-    <Grid container spacing={4}>
+    <>
       <Tabs
         indicatorColor="primary"
         onChange={(_, value) => setView(value)}
@@ -31,7 +31,7 @@ function App() {
         <Tab label="Inventory" value="inventory" />
       </Tabs>
       {render[view]}
-    </Grid>
+    </>
   )
 }
 

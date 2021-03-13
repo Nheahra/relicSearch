@@ -1,9 +1,10 @@
 import React from 'react'
-import Items from 'warframe-items'
+// import Items from 'warframe-items'
 
 function FarmGuide() {
-  const items = new Items([])
-  console.log({ items })
+  // const items = new Items([])
+  // console.log({ items })
+  return <div>TEST</div>
 //   render() {
 //     if ( this.state.primeOptions.length < 1 ) {
 //       // waiting for this.componentDidMount();
