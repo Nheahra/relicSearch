@@ -4,8 +4,9 @@
   "description": "An application to farm for relics or primes",
   "private": true,
   "scripts": {
-    "build": "webpack",
-    "dev": "webpack serve --open",
+    "build": "webpack build",
+    "dev": "webpack serve",
+    "start": "webpack serve --open",
     "lint": "eslint --ext .js,.jsx",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest"

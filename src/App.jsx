@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { hot } from 'react-hot-loader/root'
 import FarmGuide from './pages/FarmGuide'
 import Inventory from './pages/Inventory'
@@ -19,7 +19,7 @@ function App() {
   }
 
   return (
-    <>
+    <Fragment>
       <Tabs
         indicatorColor="primary"
         onChange={(_, value) => setView(value)}
@@ -31,7 +31,7 @@ function App() {
         <Tab label="Inventory" value="inventory" />
       </Tabs>
       {render[view]}
-    </>
+    </Fragment>
   )
 }
 
