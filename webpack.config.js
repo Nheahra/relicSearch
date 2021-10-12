@@ -5,12 +5,12 @@ module.exports = {
   entry: './src/index.jsx',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     clean: true,
   },
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    static: path.join(__dirname, 'public'),
     hot: true,
     port: 9000,
   },
@@ -18,14 +18,16 @@ module.exports = {
     rules: [
       { test: /\.md$/, use: 'null-loader' },
       {
+        include: [/src/],
+        exclude: /(node_modules|bower_components)/,
         test: /\.js(x)?/,
         use: {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
+            presets: ['@babel/preset-env'],
           }
         },
-        include: [/src/],
       },
       {
         test: /\.s?css/,

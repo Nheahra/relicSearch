@@ -6,6 +6,9 @@ module.exports = {
     node: true,
     jest: true,
   },
+  globals: {
+    React: true,
+  },
   parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
@@ -15,8 +18,7 @@ module.exports = {
     },
   },
   plugins: [
-    react,
-    '@typescript-eslint',
+    '@emotion/eslint-plugin'
   ],
   rules: {
     complexity: ['error', 20],

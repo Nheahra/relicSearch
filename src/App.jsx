@@ -1,5 +1,4 @@
-import React, { Fragment, useState } from 'react'
-import { hot } from 'react-hot-loader/root'
+import React, { useState } from 'react'
 import FarmGuide from './pages/FarmGuide'
 import Inventory from './pages/Inventory'
 import SearchRelic from './pages/SearchRelic'
@@ -7,7 +6,7 @@ import {
   Grid,
   Tab,
   Tabs,
-} from '@material-ui/core'
+} from '@mui/material'
 
 function App() {
   const [view, setView] = useState('farmGuide')
@@ -19,7 +18,7 @@ function App() {
   }
 
   return (
-    <Fragment>
+    <>
       <Tabs
         indicatorColor="primary"
         onChange={(_, value) => setView(value)}
@@ -31,8 +30,8 @@ function App() {
         <Tab label="Inventory" value="inventory" />
       </Tabs>
       {render[view]}
-    </Fragment>
+    </>
   )
 }
 
-export default hot(App)
+export default App

@@ -1,11 +1,5 @@
 import App from './App'
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-if (module.hot) {
-  module.hot.accept('./App', function() {
-    ReactDOM.render(<App />, document.getElementById('app'))
-  })
-}
-
+console.log(App)
 ReactDOM.render(<App />, document.getElementById('app'))

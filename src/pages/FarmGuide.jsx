@@ -3,7 +3,7 @@ import Items from 'warframe-items'
 import {
   TextField,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import {
   filter as _filter,
   map as _map,
