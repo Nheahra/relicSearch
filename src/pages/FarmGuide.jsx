@@ -1,50 +1,71 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import Items from 'warframe-items'
 import {
-  TextField,
+  Box,
+  Grid,
+  List,
   Typography,
 } from '@mui/material'
+
 import {
   filter as _filter,
   map as _map,
-  uniq as _uniq,
 } from 'lodash'
 
+import FarmMenu from './components/FarmMenu'
+import { getNodeData, getSystemNames } from '../utils'
+
 function FarmGuide() {
+  const [selectedNode, setSelectedNode] = useState()
+
+  const selectNode = useCallback((name) => setSelectedNode(name))
+
   const items = new Items({ category: ['Relics'] })
   const nodes = new Items({ category: ['Node']})
-  const misc = new Items({ category: ['Misc']})
+  // const misc = new Items({ category: ['Misc']})
+  const height = window.height
 
-  const [filterText, setFilterText] = useState('')
-  const setFilter = useCallback((e) => setFilterText(e.target.value))
-
-  console.log({ filteredRelics, nodes, misc })
-
-  const filteredRelics = _filter(items, item => item.drops)
-  const systemNames = _uniq(_map(nodes.sort((a, b) => a.systemIndex > b.systemIndex), 'systemName'))
-
-  function displayNodes(systemName) {
-    const systemNodes = _filter(nodes, ({ systemName }))
-
-    return _map(systemNodes, ({ name }) => (
-      <Typography variant="body1">{name}</Typography>
-    ))
-  }
+  const systemNames = getSystemNames(nodes)
+  const filteredRelicData = _filter(items, item => item.drops)
+  const relics = useMemo(() => getNodeData(filteredRelicData, selectedNode));
+  // console.log({ relics })
 
   return (
-    <>
-      <TextField 
-        label="Search"
-        onChange={setFilter}
-        value={filterText}
-      />
-      {_map(systemNames, sysname => (
-        <>
-          <Typography variant="h6">{sysname}</Typography>
-          {displayNodes(sysname)}
-        </>
-      ))}
-    </>
+    <Box sx={{ display: 'flex' }}>
+      <Grid item xs={2}>
+        <List
+          sx={{
+            bgcolor: 'background.paper',
+          }}
+          component="nav"
+        >
+          {_map(systemNames, sysname => (
+            <FarmMenu
+              nodes={nodes}
+              selectNode={selectNode}
+              selectedNode={selectedNode}
+              sysname={sysname}
+            />
+          ))}
+        </List>
+      </Grid>
+      <Grid
+        container
+        item
+        xs={10}
+        spacing={2}
+        sx={{
+          boxShadow: '-10px 0px 10px #b5b5b5',
+          'z-index': 15,
+          height: height,
+          margin: 0,
+        }}
+      >
+        <Grid item xs={12}>
+          <Typography variant="h3">{selectedNode}</Typography>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
 
