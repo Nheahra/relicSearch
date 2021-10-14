@@ -6,9 +6,7 @@ import {
   List,
   Typography,
 } from '@mui/material'
-
 import {
-  filter as _filter,
   map as _map,
 } from 'lodash'
 
@@ -26,9 +24,9 @@ function FarmGuide() {
   const height = window.height
 
   const systemNames = getSystemNames(nodes)
-  const filteredRelicData = _filter(items, item => item.drops)
-  const relics = useMemo(() => getNodeData(filteredRelicData, selectedNode));
-  // console.log({ relics })
+  const nodeNames = _map(nodes, 'name')
+  const relics = useMemo(() => getNodeData(items, nodeNames));
+  console.log({ relics })
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -41,6 +39,7 @@ function FarmGuide() {
         >
           {_map(systemNames, sysname => (
             <FarmMenu
+              key={sysname}
               nodes={nodes}
               selectNode={selectNode}
               selectedNode={selectedNode}
@@ -61,9 +60,11 @@ function FarmGuide() {
           margin: 0,
         }}
       >
-        <Grid item xs={12}>
-          <Typography variant="h3">{selectedNode}</Typography>
-        </Grid>
+        {selectedNode && (
+          <Grid item xs={12}>
+            <Typography variant="h3">{selectedNode}</Typography>
+          </Grid>
+        )}
       </Grid>
     </Box>
   )

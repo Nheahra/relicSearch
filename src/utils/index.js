@@ -1,37 +1,41 @@
 import {
   filter as _filter,
   sortBy as _sortBy,
-  transform as _transform,
+  flatten as _flatten,
   uniq as _uniq,
-} from 'lodash';
+  uniqBy as _uniqBy,
+} from 'lodash'
 
-// rethink this
-export const getNodeData = (items, nodeName) => {
-  console.log({ items, nodeName })
-    _transform(items, (acc, data) => {
-      const test = _filter(data.drops, dp => dp.location.indexOf(nodeName) > -1)
-      console.log({ test })
-    data.drops.forEach(drop => {
-      const {
-        chance,
-        location,
-        rarity,
-        type,
-      } = drop
-      let array = acc[location] || []
-      const initialRotation = location.match(/, ([^]+)/)
-      const rotation = initialRotation ? initialRotation[1] : null
-      const name = type.match(/([^]+) Relic/)[1]
-      const relic = {
-        chance,
-        rarity,
-        name,
-        rotation,
-      }
-      return acc[location] = relic
-    })
-  }, {})
+function filterRelicData(items) {
+  const filteredRelicData = _filter(items, item => item.drops)
+  const mappedData = filteredRelicData.map(item => item.drops)
+  return _flatten(mappedData)
 }
+
+export function getNodeData(items, nodes) {
+  const data = filterRelicData(items)
+  const relicsObject = {}
+  nodes.forEach(node => {
+    const validRelics = _filter(data, ({ location }) => location.indexOf(node) > -1)
+    if(validRelics.length > 0) {
+      const relics = validRelics.map(({ location, type, chance, rarity }) => {
+        const initialRotation = location.match(/, ([^]+)/)
+        const rotation = initialRotation ? initialRotation[1] : null
+        const name = type.match(/([^]+) Relic/)[1]
+        return ({
+          chance,
+          rarity,
+          name,
+          rotation,
+        })
+      })
+      Object.assign(relicsObject, { [node]: _uniqBy(relics, 'name') })
+    }
+  })
+
+  return relicsObject
+}
+
 
 export function getSystemNames(nodes) {
   const sortedNodes = _sortBy(nodes, 'systemIndex')

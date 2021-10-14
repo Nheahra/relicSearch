@@ -1,11 +1,17 @@
-import React, { useMemo } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Grid } from '@mui/material'
 
-function NodeData({ nodeName, relicData }) {
-//   <TextField 
-//         label="Search"
-//         onChange={setFilter}
-//         value={filterText}
-//       />
+function NodeData({ relicData }) {
+  return(
+    <Grid item xs={3}>
+
+    </Grid>
+  )
+}
+
+NodeData.propTypes = {
+  relicData: PropTypes.shape({}),
 }
 
 export default NodeData
