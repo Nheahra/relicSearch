@@ -11,6 +11,7 @@ import {
 } from 'lodash'
 
 import FarmMenu from './components/FarmMenu'
+import NodeData from './components/NodeData'
 import { getNodeData, getSystemNames } from '../utils'
 
 function FarmGuide() {
@@ -61,9 +62,17 @@ function FarmGuide() {
         }}
       >
         {selectedNode && (
+          <>
           <Grid item xs={12}>
             <Typography variant="h3">{selectedNode}</Typography>
           </Grid>
+          {relics[selectedNode].map(data => (
+            <NodeData
+              key={data.name}
+              data={data}
+            />
+          ))}
+          </>
         )}
       </Grid>
     </Box>

@@ -12,6 +12,18 @@ function filterRelicData(items) {
   return _flatten(mappedData)
 }
 
+function reduceRelics(relics) {
+  relics.reduce((acc, relic) => {
+    const {
+      chance,
+      rarity,
+      name,
+      rotation,
+    } = relic
+    (acc[name] || acc[name] = []).push({ chance, rarity, rotation })
+  }, [])
+}
+
 export function getNodeData(items, nodes) {
   const data = filterRelicData(items)
   const relicsObject = {}
@@ -29,7 +41,7 @@ export function getNodeData(items, nodes) {
           rotation,
         })
       })
-      Object.assign(relicsObject, { [node]: _uniqBy(relics, 'name') })
+      Object.assign(relicsObject, { [node]: reduceRelics(relics) })
     }
   })
 
