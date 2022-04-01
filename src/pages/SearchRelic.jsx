@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   FormControl,
   FormControlLabel,
@@ -29,7 +29,7 @@ function SearchRelic() {
   console.log({ filteredPrimes })
 
   return (
-    <Fragment>
+    <>
       <FormControl component="fieldset">
         <FormLabel component="legend">Filter By Type</FormLabel>
         <RadioGroup aria-label="primeFilter" name="primeFilter" value={filter} onChange={changeFilter}>
@@ -42,7 +42,7 @@ function SearchRelic() {
           <FormControlLabel value="Warframes" control={<Radio />} label="Warframes" />
         </RadioGroup>
       </FormControl>
-    </Fragment>
+    </>
   )
 }
  
