@@ -20,7 +20,7 @@ function reduceRelics(relics) {
       name,
       rotation,
     } = relic
-    (acc[name] || acc[name] = []).push({ chance, rarity, rotation })
+    (acc[name] || acc[name] === []).push({ chance, rarity, rotation })
   }, [])
 }
 
