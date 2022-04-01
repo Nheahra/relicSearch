@@ -5,7 +5,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-} from '@material-ui/core'
+} from '@mui/material'
 import Items from 'warframe-items'
 import { filter as _filter } from 'lodash'
 

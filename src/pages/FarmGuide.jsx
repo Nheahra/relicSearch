@@ -1,90 +1,82 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import Items from 'warframe-items'
 import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
+  Box,
+  Grid,
+  List,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import {
-  filter as _filter,
-  find as _find,
   map as _map,
-  reduce as _reduce,
-  uniq as _uniq,
 } from 'lodash'
 import { getRelics } from '../utils'
 
+import FarmMenu from './components/FarmMenu'
+import NodeData from './components/NodeData'
+import { getNodeData, getSystemNames } from '../utils'
+
 function FarmGuide() {
+  const [selectedNode, setSelectedNode] = useState()
+
+  const selectNode = useCallback((name) => setSelectedNode(name))
+
   const items = new Items({ category: ['Relics'] })
   const nodes = new Items({ category: ['Node']})
-  const misc = new Items({ category: ['Misc']})
+  // const misc = new Items({ category: ['Misc']})
+  const height = window.height
 
-  const [filterText, setFilterText] = useState('')
-  const setFilter = useCallback((e) => setFilterText(e.target.value))
-
-  const filteredRelics = _filter(items, item => item.drops)
-  const systemNames = _uniq(_map(nodes.sort((a, b) => a.systemIndex > b.systemIndex), 'systemName'))
-  console.log({ filteredRelics, nodes, misc })
-
-  function getNodeRelics(nodeName) {
-    const nodeRelics = getRelics(filteredRelics, nodeName)
-    return (
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Relic</TableCell>
-              <TableCell>Mission Type</TableCell>
-              <TableCell>Rotation</TableCell>
-              <TableCell>DropChance</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {_map(nodeRelics, relic => (
-              <TableRow key={relic.name}>
-                <TableCell>{relic.name}</TableCell>
-                <TableCell>{relic.mission}</TableCell>
-                <TableCell>{relic.rotation}</TableCell>
-                <TableCell>{relic.dropChance}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    )
-  }
-
-  function displayNodes(systemName) {
-    const systemNodes = _filter(nodes, ({ systemName }))
-
-    return _map(systemNodes, ({ name }) => (
-      <>
-        <Typography variant="body1">{name}</Typography>
-        {getNodeRelics(name)}
-      </>
-    ))
-  }
+  const systemNames = getSystemNames(nodes)
+  const nodeNames = _map(nodes, 'name')
+  const relics = useMemo(() => getNodeData(items, nodeNames));
+  console.log({ relics })
 
   return (
-    <>
-      <TextField 
-        label="Search"
-        onChange={setFilter}
-        value={filterText}
-      />
-      {_map(systemNames, sysname => (
-        <>
-          <Typography key={sysname} variant="h6">{sysname}</Typography>
-          {displayNodes(sysname)}
-        </>
-      ))}
-    </>
+    <Box sx={{ display: 'flex' }}>
+      <Grid item xs={2}>
+        <List
+          sx={{
+            bgcolor: 'background.paper',
+          }}
+          component="nav"
+        >
+          {_map(systemNames, sysname => (
+            <FarmMenu
+              key={sysname}
+              nodes={nodes}
+              selectNode={selectNode}
+              selectedNode={selectedNode}
+              sysname={sysname}
+            />
+          ))}
+        </List>
+      </Grid>
+      <Grid
+        container
+        item
+        xs={10}
+        spacing={2}
+        sx={{
+          boxShadow: '-10px 0px 10px #b5b5b5',
+          'z-index': 15,
+          height: height,
+          margin: 0,
+        }}
+      >
+        {selectedNode && (
+          <>
+          <Grid item xs={12}>
+            <Typography variant="h3">{selectedNode}</Typography>
+          </Grid>
+          {relics[selectedNode].map(data => (
+            <NodeData
+              key={data.name}
+              data={data}
+            />
+          ))}
+          </>
+        )}
+      </Grid>
+    </Box>
   )
 }
 

@@ -1,71 +1,57 @@
 import {
   filter as _filter,
-  find as _find,
-  forEach as _forEach,
-  map as _map,
-  reduce as _reduce,
   sortBy as _sortBy,
-  split as _split,
-  transform as _transform,
+  flatten as _flatten,
+  uniq as _uniq,
   uniqBy as _uniqBy,
 } from 'lodash'
 
-const missionTypes = []
-export const rotations = [
-  'Rotation A',
-  'Rotation B',
-  'Rotation C',
-]
-export const relicQuality = [
-  'Intact',
-  'Exceptional',
-  'Flawless',
-  'Radiant',
-]
-
-function getBaseRelicName(name) {
-  const nameArr = name.split(' ')
-  nameArr.pop()
-  return nameArr.join(' ')
+function filterRelicData(items) {
+  const filteredRelicData = _filter(items, item => item.drops)
+  const mappedData = filteredRelicData.map(item => item.drops)
+  return _flatten(mappedData)
 }
 
-function getRotation(location) {
-  // endsWith or indexOf
-  const thinger = location
+function reduceRelics(relics) {
+  relics.reduce((acc, relic) => {
+    const {
+      chance,
+      rarity,
+      name,
+      rotation,
+    } = relic
+    (acc[name] || acc[name] = []).push({ chance, rarity, rotation })
+  }, [])
 }
 
-export const getRelics = (filteredRelics, nodeName) => _reduce(filteredRelics, (arr, val) => {
-  const findNode = _filter(val.drops, dp => dp.location.indexOf(nodeName) > -1)
-  const baseRelicName = getBaseRelicName(val.name)
-  _forEach(findNode, node => {
-    const locationArr = _split(node.location, /[()]/)
-    const rotation = rotations.forEach(rot => node.location.indexOf(rot) > -1) // fix this
-    console.log({ node })
-    if (!_find(arr, ({ name: baseRelicName, rotation }))) {
-      arr.push({
-        name: baseRelicName,
-        rotation,
-        dropChance: node.chance,
+export function getNodeData(items, nodes) {
+  const data = filterRelicData(items)
+  const relicsObject = {}
+  nodes.forEach(node => {
+    const validRelics = _filter(data, ({ location }) => location.indexOf(node) > -1)
+    if(validRelics.length > 0) {
+      const relics = validRelics.map(({ location, type, chance, rarity }) => {
+        const initialRotation = location.match(/, ([^]+)/)
+        const rotation = initialRotation ? initialRotation[1] : null
+        const name = type.match(/([^]+) Relic/)[1]
+        return ({
+          chance,
+          rarity,
+          name,
+          rotation,
+        })
       })
+      Object.assign(relicsObject, { [node]: reduceRelics(relics) })
     }
   })
-  return arr
-}, [])
 
-export function generateSystemData(nodes, relics) {
-  const planets = _uniqBy(_map(nodes, ({ systemName, systemIndex }) => ({ systemName, systemIndex })), 'systemName')
-  _forEach(planets, ({ systemName, systemIndex }) => {
-    const systemNodes = _filter(nodes, ({ systemName }))
-    const planet = {
-      planetName: systemName,
-      planetIndex: systemIndex,
-      nodes: [{
+  return relicsObject
+}
 
-      }],
-    }
-    acc.push(planet)
-  })
-  // const data = _transform(nodes, (acc, val, key) => {
-  // }, [])
-  return _sortBy(data, 'systemIndex')
+
+export function getSystemNames(nodes) {
+  const sortedNodes = _sortBy(nodes, 'systemIndex')
+    .map(({ systemName }) => systemName)
+
+  return _uniq(sortedNodes)
 }
