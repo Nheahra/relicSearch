@@ -1,9 +1,9 @@
 import {
   filter as _filter,
+  find as _find,
   sortBy as _sortBy,
   flatten as _flatten,
   uniq as _uniq,
-  uniqBy as _uniqBy,
 } from 'lodash'
 
 function filterRelicData(items) {
@@ -12,8 +12,7 @@ function filterRelicData(items) {
   return _flatten(mappedData)
 }
 
-function reduceRelics(relics) {
-  relics.reduce((acc, relic) => {
+const reduceRelics = (relics) => relics.reduce((acc, relic) => {
     const {
       chance,
       rarity,
@@ -21,10 +20,12 @@ function reduceRelics(relics) {
       rotation,
     } = relic
     const selectedArr = acc[name] || []
-    acc[name] = [...selectedArr, { chance, rarity, rotation }]
+    const pushRelic = { chance, rarity, rotation }
+    if(!_find(selectedArr, pushRelic)) {
+      acc[name] = [...selectedArr, pushRelic]
+    }
     return acc
-  }, [])
-}
+  }, {})
 
 export function getNodeData(items, nodes) {
   const data = filterRelicData(items)

@@ -4,9 +4,10 @@
   "description": "An application to farm for relics or primes",
   "private": true,
   "scripts": {
-    "dev": "react-scripts --expose-gc --max_old_space_size=4096 start",
+    "dev": "react-scripts --max_old_space_size=8192 start",
     "build": "react-scripts build",
     "start": "react-scripts start",
+    "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "npm run lint --fix .",
     "test": "jest"
@@ -26,6 +27,7 @@
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.0.3",
     "lodash": "4.17.21",
     "react": "17.0.1",

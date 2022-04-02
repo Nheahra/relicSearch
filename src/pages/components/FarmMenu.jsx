@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   Collapse,
@@ -7,12 +7,11 @@ import {
   List,
   ListItemText,
 } from '@mui/material'
-// import {
-//   ExpandLess,
-//   ExpandMore,
-// } from '@mui/icons-material'
 import {
-  filter as _filter,
+  ExpandLess,
+  ExpandMore,
+} from '@mui/icons-material'
+import {
   map as _map,
 } from 'lodash'
 
@@ -25,32 +24,30 @@ function FarmMenu({
   const [menuOpen, setMenuOpen] = useState(false);
   const handleMenuClick = useCallback(() => setMenuOpen(!menuOpen), [menuOpen, setMenuOpen])
 
-  const displayNodes = useMemo((systemName) => {
-    const systemNodes = _filter(nodes, ({ systemName }))
-
-    return _map(systemNodes, ({ name }) => (
-      <Collapse in={menuOpen} timeout="auto" key={name}>
-        <List component="div" disablePadding>
-          <ListItemButton
-            onClick={() => selectNode(name)}
-            selected={name === selectedNode}
-            sx={{ pl: 4 }}
-          >
-            <ListItemText primary={name}/>
-          </ListItemButton>
-        </List>
-      </Collapse>
-    ))
-  })
+  const displayNodes = useMemo(() =>  _map(nodes, ({ name }) => (
+      <List component="div" disablePadding>
+        <ListItemButton
+          onClick={() => selectNode(name)}
+          selected={name === selectedNode}
+          sx={{ pl: 4 }}
+        >
+          <ListItemText primary={name}/>
+        </ListItemButton>
+      </List>
+    )),
+    [nodes, selectNode, selectedNode]
+  )
 
   return (
     <>
       <ListItemButton onClick={handleMenuClick}>
         <ListItemText primary={sysname} />
-        {/* {menuOpen ? <ExpandLess /> : <ExpandMore />} */}
+        {menuOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Divider />
-      {displayNodes}
+      <Collapse in={menuOpen} timeout="auto">
+        {displayNodes}
+      </Collapse>
     </>
   )
 }

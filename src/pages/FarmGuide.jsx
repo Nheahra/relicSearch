@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import Items from 'warframe-items'
 import {
   Box,
@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@mui/material'
 import {
+  filter as _filter,
   map as _map,
 } from 'lodash'
 import { getRelics } from '../utils'
@@ -18,16 +19,18 @@ import { getNodeData, getSystemNames } from '../utils'
 function FarmGuide() {
   const [selectedNode, setSelectedNode] = useState()
 
-  const selectNode = useCallback((name) => setSelectedNode(name))
+  const selectNode = useCallback((name) => setSelectedNode(name), [])
 
-  const items = new Items({ category: ['Relics'] })
   const nodes = new Items({ category: ['Node']})
   // const misc = new Items({ category: ['Misc']})
   const height = window.height
-
+  
   const systemNames = getSystemNames(nodes)
   const nodeNames = _map(nodes, 'name')
-  const relics = useMemo(() => getNodeData(items, nodeNames));
+  const relics = useMemo(() => {
+    const items = new Items({ category: ['Relics'] })
+    return getNodeData(items, nodeNames)
+  }, [nodeNames]);
   console.log({ relics })
 
   return (
@@ -42,7 +45,7 @@ function FarmGuide() {
           {_map(systemNames, sysname => (
             <FarmMenu
               key={sysname}
-              nodes={nodes}
+              nodes={_filter(nodes, ({ systemName: sysname }))}
               selectNode={selectNode}
               selectedNode={selectedNode}
               sysname={sysname}
