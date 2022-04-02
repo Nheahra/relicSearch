@@ -25,7 +25,7 @@ function FarmMenu({
   const [menuOpen, setMenuOpen] = useState(false);
   const handleMenuClick = useCallback(() => setMenuOpen(!menuOpen), [menuOpen, setMenuOpen])
 
-  const displayNodes = (systemName) => useMemo(() => {
+  const displayNodes = useMemo((systemName) => {
     const systemNodes = _filter(nodes, ({ systemName }))
 
     return _map(systemNodes, ({ name }) => (
@@ -50,7 +50,7 @@ function FarmMenu({
         {/* {menuOpen ? <ExpandLess /> : <ExpandMore />} */}
       </ListItemButton>
       <Divider />
-      {displayNodes(sysname)}
+      {displayNodes}
     </>
   )
 }

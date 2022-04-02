@@ -20,7 +20,9 @@ function reduceRelics(relics) {
       name,
       rotation,
     } = relic
-    (acc[name] || acc[name] === []).push({ chance, rarity, rotation })
+    const selectedArr = acc[name] || []
+    acc[name] = [...selectedArr, { chance, rarity, rotation }]
+    return acc
   }, [])
 }
 
