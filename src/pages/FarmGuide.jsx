@@ -70,7 +70,7 @@ function FarmGuide() {
           <Grid item xs={12}>
             <Typography variant="h3">{selectedNode}</Typography>
           </Grid>
-          {relics[selectedNode].map(data => (
+          {_map(relics[selectedNode], data => (
             <NodeData
               key={data.name}
               data={data}
