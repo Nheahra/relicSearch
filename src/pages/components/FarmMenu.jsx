@@ -7,10 +7,10 @@ import {
   List,
   ListItemText,
 } from '@mui/material'
-import {
-  ExpandLess,
-  ExpandMore,
-} from '@mui/icons-material'
+// import {
+//   ExpandLess,
+//   ExpandMore,
+// } from '@mui/icons-material'
 import {
   filter as _filter,
   map as _map,
@@ -47,7 +47,7 @@ function FarmMenu({
     <>
       <ListItemButton onClick={handleMenuClick}>
         <ListItemText primary={sysname} />
-        {menuOpen ? <ExpandLess /> : <ExpandMore />}
+        {/* {menuOpen ? <ExpandLess /> : <ExpandMore />} */}
       </ListItemButton>
       <Divider />
       {displayNodes(sysname)}

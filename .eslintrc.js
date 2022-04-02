@@ -1,13 +1,18 @@
 module.exports = {
     env: {
         browser: true,
+        commonjs: true,
         node: true,
-        es2022: true,
+        es6: true,
         'jest/globals': true,
     },
     extends: [
         'eslint:recommended',
         'plugin:react/recommended',
+        'plugin:jsx-a11y/recommended',
+        'plugin:react-hooks/recommended',
+        'plugin:jest/recommended',
+        'plugin:testing-library/react',
     ],
     parserOptions: {
         ecmaFeatures: {
@@ -16,19 +21,11 @@ module.exports = {
         ecmaVersion: 2022,
         sourceType: 'module',
     },
-    plugins: ['react', 'jest'],
+    plugins: ['import', 'react', 'jest'],
     settings: {
         react: {
             pragma: 'React',
             version: 'detect',
         },
-        'import/resolver': {
-            node: {
-                path: ['src'],
-                extensions: ['.js', '.jxs'],
-            },
-        },
     },
-    rules: {
-    }
 };
