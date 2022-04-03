@@ -21,7 +21,7 @@ function FarmGuide() {
 
   const selectNode = useCallback((name) => setSelectedNode(name), [])
 
-  const nodes = new Items({ category: ['Node']})
+  const nodes = useMemo(() => new Items({ category: ['Node']}), [])
   // const misc = new Items({ category: ['Misc']})
   const height = window.height
   
@@ -67,15 +67,12 @@ function FarmGuide() {
       >
         {selectedNode && (
           <>
-          <Grid item xs={12}>
-            <Typography variant="h3">{selectedNode}</Typography>
-          </Grid>
-          {_map(relics[selectedNode], data => (
+            <Grid item xs={12}>
+              <Typography variant="h3">{selectedNode}</Typography>
+            </Grid>
             <NodeData
-              key={data.name}
-              data={data}
+              data={relics[selectedNode]}
             />
-          ))}
           </>
         )}
       </Grid>

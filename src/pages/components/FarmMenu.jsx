@@ -25,7 +25,7 @@ function FarmMenu({
   const handleMenuClick = useCallback(() => setMenuOpen(!menuOpen), [menuOpen, setMenuOpen])
 
   const displayNodes = useMemo(() =>  _map(nodes, ({ name }) => (
-      <List component="div" disablePadding>
+      <List component="div" disablePadding key={name}>
         <ListItemButton
           onClick={() => selectNode(name)}
           selected={name === selectedNode}
