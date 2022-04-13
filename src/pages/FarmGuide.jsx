@@ -29,9 +29,10 @@ function FarmGuide() {
   const nodeNames = _map(nodes, 'name')
   const relics = useMemo(() => {
     const items = new Items({ category: ['Relics'] })
+    console.log({ items, nodeNames })
     return getNodeData(items, nodeNames)
   }, [nodeNames]);
-  console.log({ relics })
+  console.log({ relics, selectednoderelics: relics[selectedNode], selectedNode })
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -65,15 +66,15 @@ function FarmGuide() {
           margin: 0,
         }}
       >
-        {selectedNode && (
-          <>
+        {(selectedNode && relics[selectedNode]) && (
+          <Grid item container justifyContent="space-around" spacing={2} xs={12}>
             <Grid item xs={12}>
               <Typography variant="h3">{selectedNode}</Typography>
             </Grid>
             <NodeData
               data={relics[selectedNode]}
-            />
-          </>
+              />
+          </Grid>
         )}
       </Grid>
     </Box>

@@ -20,7 +20,13 @@ module.exports = {
         ecmaVersion: 2022,
         sourceType: 'module',
     },
-    plugins: ['import', 'react', 'jest'],
+    plugins: [
+        'import',
+        'react',
+        'jest',
+        'react-hooks',
+        'jsx-a11y',
+    ],
     settings: {
         react: {
             pragma: 'React',

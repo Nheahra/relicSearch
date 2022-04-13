@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import FarmGuide from './pages/FarmGuide'
 import Inventory from './pages/Inventory'
 import SearchRelic from './pages/SearchRelic'

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "An application to farm for relics or primes",
   "private": true,
+  "browser": {
+    "fs": false
+  },
   "scripts": {
     "dev": "react-scripts --max_old_space_size=8192 start",
     "build": "react-scripts build",
@@ -30,16 +33,16 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.0.3",
     "lodash": "4.17.21",
+    "path": "^0.12.7",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-scripts": "^5.0.0",
-    "warframe-items": "1.1246.2"
+    "react-scripts": "^5.0.1",
+    "warframe-items": "^1.1253.108"
   },
   "devDependencies": {
     "@emotion/eslint-plugin": "^11.2.0",
-    "eslint": "8.0.0",
-    "eslint-plugin-import": "~2.7.0",
-    "jest": "26.6.3",
+    "eslint": "^8.13.0",
+    "jest": "27.5.1",
     "prop-types": "15.7.2"
   },
   "browserslist": {
